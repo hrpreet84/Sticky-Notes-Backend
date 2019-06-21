@@ -1,26 +1,39 @@
 const express = require('express');
-const connectDB=require('./config/db');
+const bodyParser = require('body-parser');
 
-//const task = require('./routes/api/task');
-
+// create express app
 const app = express();
-const PORT = process.env.PORT || 5000;
-//get request to root
 
-connectDB();
-//set the middleware to parse data
-app.use(express.json({ extended: false }));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/api/users', require('./routes/api/user'));
-app.use('/api/auths', require('./routes/api/auth'));
-app.use('/api/category',require('./routes/api/category'));
-app.use('/api/notes',require('./routes/api/note'));
+// parse application/json
+app.use(bodyParser.json())
 
+// Configuring the database
+const dbConfig = require('./config/database.config.js');
+const mongoose = require('mongoose');
 
-//app.get('/:name',(req,res)=>res.send("<b>hello Nodemon !"+req.params.name+"</b>"));
-//app.post('/postit',(req,res)=>res.send("<b>hello Nodemon !"+req.params.name+"</b>"));
+mongoose.Promise = global.Promise;
 
+// Connecting to the database
+mongoose.connect(dbConfig.url, {
+	useNewUrlParser: true
+}).then(() => {
+    console.log("Successfully connected to the database");    
+}).catch(err => {
+    console.log('Could not connect to the database. Exiting now...', err);
+    process.exit();
+});
 
-app.listen(PORT, () => {
-    console.log('SecondApp started');
+// define a simple route
+app.get('/', (req, res) => {
+    res.json({"message": "Welcome to EasyNotes application. Take notes quickly. Organize and keep track of all your notes."});
+});
+
+require('./app/routes/note.routes.js')(app);
+
+// listen for requests
+app.listen(5000, () => {
+    console.log("Server is listening on port 5000");
 });
