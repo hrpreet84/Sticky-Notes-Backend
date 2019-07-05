@@ -21,9 +21,10 @@ router.post('/',auth,async (req, res) => {
         res.status(500).send('Server error');
     }
 });
-router.get('/', auth,async (req, res) => {
+router.get('/',auth,async (req, res) => {
     try {
-        const Task2 = await Category.find({ user: req.user.id });
+        // const Task2 = await Category.find({ user: req.user.id });
+        const Task2 = await Category.find();
         res.send(Task2);
 
     } catch (error) {
