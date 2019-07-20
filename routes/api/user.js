@@ -41,7 +41,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] });
+          .json({ errors: [{email : { msg: 'User already exists' }}] });
       }
 
       user = new User({
@@ -126,6 +126,11 @@ router.put('/update', auth, async (req, res) => {
     }
   );
   res.send(user1);
+});
+
+router.get('/verify',auth,function(req,res){
+  res.sendStatus(200);
+  console.log("verified sent");
 });
 
 
