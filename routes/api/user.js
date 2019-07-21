@@ -93,7 +93,7 @@ router.post('/authenticate', async (req, res) => {
     console.log(user1);
     res.status(404).send('user not found');
   } else {
-    console.log(user1);
+    console.log("AAAAAAAAAAA"+user1._id);
     if (bcrypt.compare(req.body.password, user1.password)) {
       const token = jwt.sign({ id: user1._id }, config.get('jwtSecret'), { expiresIn: 36000 });
       res.json({ status: "success", message: "user found!!!", data: { user: user1, token: token } });
