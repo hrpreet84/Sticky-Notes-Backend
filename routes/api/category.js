@@ -8,7 +8,7 @@ const User = require('../../models/User');
 router.post('/',auth,async (req, res) => {
     try {
         const newTask = new Category({
-            user: req.user.id,
+            user: req.id,
             title: req.body.title,
             description: req.body.description,
             status: req.body.status
@@ -23,8 +23,8 @@ router.post('/',auth,async (req, res) => {
 });
 router.get('/',auth,async (req, res) => {
     try {
-        // const Task2 = await Category.find({ user: req.user.id });
-        const Task2 = await Category.find();
+        const Task2 = await Category.find({ user: req.id });
+        //const Task2 = await Category.find();
         console.log('sent');
         res.send(Task2);
 
@@ -36,7 +36,7 @@ router.get('/',auth,async (req, res) => {
 router.get('/:id', auth,async (req, res) => {
     try {
         const Tasks3 = await Category.findOne({
-          user: req.user.id,
+          user: req.id,
           _id: req.params.id
         });
         if (!Tasks3) {
@@ -51,7 +51,7 @@ router.get('/:id', auth,async (req, res) => {
 router.put('/', auth, async (req, res) => {
     try {
       let Tasks4 = await Category.findOne({
-        user: req.user.id,
+        user: req.id,
         _id: req.body.id
       });
   
@@ -75,7 +75,7 @@ router.put('/', auth, async (req, res) => {
 router.delete('/', auth,async (req, res) => {
     try {
 
-        await Category.findOneAndRemove({ user: req.user.id, _id: req.body.id });
+        await Category.findOneAndRemove({ user: req.id, _id: req.body.id });
         res.json({ msg: 'Task deleted' });
 
         // var id = req.body.id;

@@ -8,7 +8,7 @@ const User = require('../../models/User');
 router.post('/',auth,async (req, res) => {
     try {
         const newNote = new Note({
-            user: req.user.id,
+            user: req.id,
             title: req.body.title,
             description: req.body.description,
             category: req.body.category,
@@ -25,7 +25,7 @@ router.post('/',auth,async (req, res) => {
 });
 router.get('/', auth,async (req, res) => {
     try {
-        const Post2 = await Note.find({ user: req.user.id });
+        const Post2 = await Note.find({ user: req.id });
         res.send(Post2);
 
     } catch (error) {
@@ -36,7 +36,7 @@ router.get('/', auth,async (req, res) => {
 router.get('/:id', auth,async (req, res) => {
     try {
         const Post3 = await Note.findOne({
-          user: req.user.id,
+          user: req.id,
           _id: req.params.id
         });
         if (!Post3) {
@@ -51,7 +51,7 @@ router.get('/:id', auth,async (req, res) => {
 router.put('/', auth, async (req, res) => {
     try {
       let Post4 = await Note.findOne({
-        user: req.user.id,
+        user: req.id,
         _id: req.body.id
       });
   
@@ -75,7 +75,7 @@ router.put('/', auth, async (req, res) => {
 router.delete('/', auth,async (req, res) => {
     try {
 
-        await Note.findOneAndRemove({ user: req.user.id, _id: req.body.id });
+        await Note.findOneAndRemove({ user: req.id, _id: req.body.id });
         res.json({ msg: 'Post deleted' });
     }
     catch (err) {
