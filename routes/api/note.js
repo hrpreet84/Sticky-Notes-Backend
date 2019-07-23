@@ -62,24 +62,52 @@ router.get('/:id', auth,async (req, res) => {
         res.status(500).send('Server error');
       }
 });
-router.put('/', auth, async (req, res) => {
+router.post('/update', auth, async (req, res) => {
     try {
       let Post4 = await Note.findOne({
         user: req.id,
-        _id: req.body.id
+        id: req.body.id
       });
-  
+      console.log(Post4);
       if (!Post4) {
-        return res.status(404).send('Post not found');
+        try {
+          const newNote = new Note({
+              user: req.id,
+              title: req.body.title,
+              text: req.body.text,
+              id: req.body.id,
+              grid:{
+                i: req.body.grid.i,
+                x: req.body.grid.x,
+                y: req.body.grid.y,
+                w: req.body.grid.w,
+                h : req.body.grid.h,
+                isDraggable: req.body.grid.isDraggable
+              },
+  
+              category: req.body.category,
+              color: req.body.color
+  
+          });
+          const Post1 = await newNote.save();
+          res.send(Post1);
+  
+      } catch (error) {
+          console.log(error.message);
+          res.status(500).send('Server error');
+      }
       }
   
       // Update
-      const { id, title, description, category } = req.body;
+      //const { id, title, description, category } = req.body;
+      else{
+      const {id,title,text,grid,category} = req.body;
       Post4 = await Note.findOneAndUpdate(
-        { _id: id },
-        { description: description, title: title, category: category }
+        {id:id},
+        {title: title,text: text,grid:grid, category:category}
+            //color: req.body.color
       );
-
+      }
       res.send(Post4);
     } catch (err) {
       console.log(err.message);
@@ -94,8 +122,23 @@ router.post('/delete',auth,async (req, res) => {
     }
     catch (err) {
         console.log(err.message);
-        res.status(500).send("server error");
+        res.status(500).send("server error");//
     }
 
 });
 module.exports = router;
+
+// {user: req.id},
+//             {title: req.body.title},
+//             {text: req.body.text},
+//             {id: req.body.id},
+//             {grid:{
+//               i: req.body.grid.i,
+//               x: req.body.grid.x,
+//               y: req.body.grid.y,
+//               w: req.body.grid.w,
+//               h : req.body.grid.h,
+//               isDraggable: req.body.grid.isDraggable
+//             }},
+
+//             {category: req.body.category}

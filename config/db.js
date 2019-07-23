@@ -12,6 +12,7 @@ const getConnection=async ()=>{
     });
     console.log("Connected Successfully");
 } catch (error) {
+    console.log(error);   
  console.log("unable to connect!");
  process.exit();   
 }

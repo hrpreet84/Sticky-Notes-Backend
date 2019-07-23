@@ -11,7 +11,7 @@ const NoteSchema=new mongoose.Schema({
         type:String
     },
     text:{
-        type:String,default: "Enter some text"
+        type:String
     },
     grid: {
                  i:{type:String},
@@ -28,8 +28,7 @@ const NoteSchema=new mongoose.Schema({
         type : Date,default: Date.now
     },
     category:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'categories'
+        type:String
     },
     color:{
         type:String
