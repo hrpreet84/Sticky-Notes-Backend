@@ -5,12 +5,25 @@ const Note = require('../../models/Note');
 const auth = require('../../middleware/auth');
 const User = require('../../models/User');
 
-router.post('/',auth,async (req, res) => {
+router.post('/',
+// [
+//   check("text","Text is required").not().isEmpty()
+// ],
+auth,async (req, res) => {
     try {
         const newNote = new Note({
             user: req.id,
             title: req.body.title,
-            description: req.body.description,
+            text: req.body.text,
+            grid:{
+              i: req.body.grid.i,
+              x: req.body.grid.x,
+              y: req.body.grid.y,
+              w: req.body.grid.w,
+              h : req.body.grid.h,
+              isDraggable: req.body.grid.isDraggable
+            },
+
             category: req.body.category,
             color: req.body.color
 
