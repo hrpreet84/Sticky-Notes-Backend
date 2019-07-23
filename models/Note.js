@@ -7,6 +7,9 @@ const NoteSchema=new mongoose.Schema({
     title:{
         type:String
     },
+    id:{
+        type:String
+    },
     text:{
         type:String,default: "Enter some text"
     },

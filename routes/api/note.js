@@ -15,6 +15,7 @@ auth,async (req, res) => {
             user: req.id,
             title: req.body.title,
             text: req.body.text,
+            id: req.body.id,
             grid:{
               i: req.body.grid.i,
               x: req.body.grid.x,
@@ -85,10 +86,10 @@ router.put('/', auth, async (req, res) => {
       res.status(500).send('Server error');
     }
   });
-router.delete('/', auth,async (req, res) => {
+router.post('/delete',auth,async (req, res) => {
     try {
 
-        await Note.findOneAndRemove({ user: req.id, _id: req.body.id });
+        await Note.findOneAndRemove({ user: req.id, id: req.body.id });
         res.json({ msg: 'Post deleted' });
     }
     catch (err) {
