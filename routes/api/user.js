@@ -100,7 +100,7 @@ router.post('/authenticate', async (req, res) => {
     }
     else {
       const token = jwt.sign({ id: user1._id }, config.get('jwtSecret'), { expiresIn: 36000 });
-      res.json({ status: "success", message: "user found!!!", data: { user: user1, token: token } });
+      res.json({ status: "success", message1: "user found!!!", data: { user: user1, token: token } });
       
     }
   }
