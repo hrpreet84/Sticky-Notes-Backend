@@ -17,6 +17,7 @@ app.use('/api/users', require('./routes/api/user'));
 app.use('/api/auths', require('./routes/api/auth'));
 app.use('/api/category',require('./routes/api/category'));
 app.use('/api/notes',require('./routes/api/note'));
+app.use('/api/faq',require('./routes/api/faq'));
 
 
 //app.get('/:name',(req,res)=>res.send("<b>hello Nodemon !"+req.params.name+"</b>"));

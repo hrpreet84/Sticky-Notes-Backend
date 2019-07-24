@@ -91,15 +91,17 @@ router.post('/authenticate', async (req, res) => {
   const user1 = await User.findOne({ email: req.body.email });
   if (!user1) {
     console.log(user1);
-    res.status(404).send('user not found');
+    res.json({ status: "error", message: "Invalid email/password!!!", data: null });
   } else {
-    console.log("AAAAAAAAAAA"+user1._id);
-    if (bcrypt.compare(req.body.password, user1.password)) {
-      const token = jwt.sign({ id: user1._id }, config.get('jwtSecret'), { expiresIn: 36000 });
-      res.json({ status: "success", message: "user found!!!", data: { user: user1, token: token } });
+    const comp = await bcrypt.compare(req.body.password,user1.password);
+    if ( !comp) {
+      console.log("Incorrect");
+      res.json({ status: "error", message: "Invalid email/password!!!", data: null });
     }
     else {
-      res.json({ status: "error", message: "Invalid email/password!!!", data: null });
+      const token = jwt.sign({ id: user1._id }, config.get('jwtSecret'), { expiresIn: 36000 });
+      res.json({ status: "success", message: "user found!!!", data: { user: user1, token: token } });
+      
     }
   }
 }
